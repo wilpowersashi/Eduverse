@@ -28,309 +28,137 @@
     min-height: 100vh;
   }
 
-  /* ─── NAVBAR ─── */
+  /* Navbar */
   .navbar {
     background: var(--surface);
     box-shadow: 0 1px 0 var(--border), var(--shadow);
-    padding: 0.9rem 2rem;
+    padding: 1rem 2rem;
     position: sticky; top: 0; z-index: 100;
   }
   .nav-container {
     max-width: 1300px; margin: 0 auto;
-    display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;
+    display: flex; justify-content: space-between; align-items: center;
   }
   .logo {
-    display: flex; align-items: center; gap: 0.5rem;
-    font-size: 1.4rem; font-weight: 800; color: var(--primary);
+    font-size: 1.5rem; font-weight: 800; color: var(--primary);
     letter-spacing: -0.5px;
   }
-  .nav-links { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  .nav-links {
+    display: flex; gap: 0.8rem; flex-wrap: wrap;
+  }
   .nav-btn {
     background: transparent; color: var(--text-muted);
     border: 1.5px solid var(--border);
-    padding: 0.55rem 1.1rem; border-radius: 50px;
-    cursor: pointer; font-weight: 600; font-size: 0.85rem;
-    transition: all 0.2s; font-family: inherit;
+    padding: 0.6rem 1.2rem; border-radius: 50px;
+    cursor: pointer; font-weight: 600; font-size: 0.9rem;
+    transition: all 0.2s;
   }
-  .nav-btn:hover { border-color: var(--primary); color: var(--primary); background: #f5f3ff; }
-  .nav-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-  .nav-btn.request-btn { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .nav-btn.request-btn:hover { background: #d97706; border-color: #d97706; }
-  .nav-btn.logout-btn { background: var(--danger); color: #fff; border-color: var(--danger); }
-  .nav-btn.logout-btn:hover { background: #dc2626; }
+  .nav-btn:hover { border-color: var(--primary); color: var(--primary); }
+  .nav-btn.active {
+    background: var(--primary); color: white; border-color: var(--primary);
+  }
 
-  /* ─── HERO ─── */
+  /* Hero */
   .hero {
-    background: linear-gradient(135deg, var(--primary) 0%, #4c1d95 60%, #1e1b4b 100%);
-    color: white; text-align: center; padding: 3.5rem 2rem 2.5rem;
-    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, var(--primary) 0%, #4c1d95 100%);
+    color: white; text-align: center; padding: 4rem 1rem 3rem;
   }
-  .hero::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 70% 50%, rgba(245,158,11,0.15) 0%, transparent 60%),
-                radial-gradient(ellipse at 20% 80%, rgba(16,185,129,0.1) 0%, transparent 50%);
+  .hero h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; }
+  .hero p { font-size: 1.1rem; opacity: 0.9; }
+
+  .container { max-width: 1300px; margin: 0 auto; padding: 2rem 1rem; }
+
+  .portal-section { display: none; }
+  .portal-section.active { display: block; animation: fadeIn 0.4s; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Stats */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.2rem;
+    margin-bottom: 2rem;
   }
-  .hero-content { position: relative; z-index: 1; }
-  .hero h1 { font-size: 2.6rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 0.6rem; }
-  .hero p { font-size: 1.05rem; opacity: 0.85; }
-
-  /* ─── CONTAINER / PORTALS ─── */
-  .container { max-width: 1300px; margin: 0 auto; padding: 2rem; }
-  .portal-section { display: none; animation: fadeIn 0.4s ease; }
-  .portal-section.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-
-  /* ─── STATS ─── */
-  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; margin-bottom: 1.8rem; }
   .stat-card {
-    background: var(--surface); padding: 1.4rem 1.6rem; border-radius: var(--radius);
-    display: flex; align-items: center; gap: 1rem; box-shadow: var(--shadow);
+    background: var(--surface); padding: 1.5rem;
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; gap: 1rem;
+  }
+
+  /* Cards */
+  .section-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 1.8rem;
+    margin-bottom: 1.8rem;
+    box-shadow: var(--shadow);
     border: 1px solid var(--border);
   }
-  .stat-icon { font-size: 2rem; }
-  .stat-number { font-size: 1.8rem; font-weight: 800; color: var(--primary); line-height: 1; }
-  .stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
 
-  /* ─── CARDS / SECTIONS ─── */
-  .section-card {
-    background: var(--surface); border-radius: var(--radius);
-    padding: 1.5rem; margin-bottom: 1.5rem;
-    box-shadow: var(--shadow); border: 1px solid var(--border);
+  .catalogue-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
   }
-  .section-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text); }
-
-  /* ─── UPLOAD AREA ─── */
-  .upload-area {
-    border: 2.5px dashed var(--primary-light); border-radius: var(--radius);
-    padding: 2rem; text-align: center; cursor: pointer; margin-bottom: 1.5rem;
-    background: #faf5ff; transition: background 0.2s;
+  .document-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
   }
-  .upload-area:hover { background: #ede9fe; }
-  .upload-area .upload-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
-
-  /* ─── FORM ─── */
-  .form-group { margin-bottom: 1rem; }
-  .form-group label { display: block; margin-bottom: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text); }
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    width: 100%; padding: 0.65rem 0.9rem;
-    border: 1.5px solid var(--border); border-radius: 10px;
-    font-size: 0.9rem; font-family: inherit; color: var(--text);
-    transition: border-color 0.2s; background: #fff;
+  .document-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(91,33,182,0.15);
   }
-  .form-group input:focus,
-  .form-group select:focus,
-  .form-group textarea:focus { outline: none; border-color: var(--primary-light); }
-  .form-group textarea { height: 80px; resize: vertical; }
-  .password-field { position: relative; }
-  .password-field input { padding-right: 90px; }
-  .password-toggle {
-    position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
-    background: var(--primary); color: #fff; border: none;
-    padding: 0.35rem 0.75rem; border-radius: 8px; cursor: pointer;
-    font-size: 0.75rem; font-weight: 700; font-family: inherit;
+  .card-image {
+    height: 140px;
+    background: linear-gradient(135deg, var(--primary), #4c1d95);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3.5rem;
+    color: white;
   }
-
-  /* ─── BUTTONS ─── */
-  .btn-primary {
-    background: linear-gradient(135deg, var(--primary-light), var(--primary));
-    color: #fff; border: none; padding: 0.75rem 1.2rem;
-    border-radius: 50px; cursor: pointer; font-weight: 700;
-    width: 100%; font-size: 0.9rem; font-family: inherit;
-    transition: opacity 0.2s, transform 0.2s;
-  }
-  .btn-primary:hover { opacity: 0.92; transform: translateY(-1px); }
-  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-  .btn-approve {
-    background: var(--accent-2); color: #fff; border: none;
-    padding: 0.4rem 0.9rem; border-radius: 50px;
-    cursor: pointer; font-weight: 600; font-size: 0.8rem; font-family: inherit;
-    margin-right: 0.4rem;
-  }
-  .btn-reject {
-    background: var(--danger); color: #fff; border: none;
-    padding: 0.4rem 0.9rem; border-radius: 50px;
-    cursor: pointer; font-weight: 600; font-size: 0.8rem; font-family: inherit;
-  }
-  .btn-delete {
-    background: #fef2f2; color: var(--danger); border: 1.5px solid #fecaca;
-    padding: 0.3rem 0.75rem; border-radius: 50px;
-    cursor: pointer; font-weight: 600; font-size: 0.75rem; font-family: inherit;
-  }
+  .card-content { padding: 1.2rem; }
+  .card-title { font-size: 1.1rem; font-weight: 700; margin: 0.5rem 0; }
+  .card-price { font-size: 1.5rem; font-weight: 800; color: var(--accent-2); margin: 0.5rem 0; }
   .btn-pay {
     background: linear-gradient(135deg, var(--primary-light), var(--primary));
-    color: #fff; border: none; padding: 0.6rem 1rem;
-    border-radius: 50px; cursor: pointer; font-weight: 700;
-    width: 100%; font-size: 0.85rem; font-family: inherit;
-    transition: opacity 0.2s;
-  }
-  .btn-pay:hover { opacity: 0.9; }
-
-  /* ─── CATALOGUE GRID ─── */
-  .filter-bar { background: var(--surface); padding: 1rem 1.2rem; border-radius: var(--radius); margin-bottom: 1.5rem; border: 1px solid var(--border); }
-  .filter-bar label { font-weight: 600; font-size: 0.85rem; display: block; margin-bottom: 0.4rem; }
-  .filter-bar select { width: 100%; padding: 0.6rem 0.8rem; border: 1.5px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 0.9rem; }
-  .catalogue-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.3rem; }
-  .document-card {
-    background: var(--surface); border-radius: var(--radius);
-    overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--border);
-    transition: transform 0.25s, box-shadow 0.25s;
-  }
-  .document-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(91,33,182,0.15); }
-  .card-image {
-    height: 120px;
-    background: linear-gradient(135deg, var(--primary) 0%, #4c1d95 100%);
-    display: flex; align-items: center; justify-content: center; font-size: 2.8rem;
-  }
-  .card-content { padding: 1.1rem; }
-  .badge {
-    display: inline-block; padding: 0.25rem 0.7rem;
-    background: #ede9fe; color: var(--primary);
-    border-radius: 20px; font-size: 0.72rem; font-weight: 700;
-  }
-  .card-title { font-size: 0.95rem; font-weight: 700; margin: 0.5rem 0; line-height: 1.4; }
-  .card-price { font-size: 1.3rem; font-weight: 800; color: var(--accent-2); margin: 0.4rem 0 0.7rem; }
-
-  /* ─── ADMIN LIST ─── */
-  .admin-item {
-    display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: 0.5rem;
-    padding: 0.8rem; border-bottom: 1px solid var(--border);
-  }
-  .admin-item:last-child { border-bottom: none; }
-  .admin-item-info strong { font-size: 0.9rem; }
-  .admin-item-info small { color: var(--text-muted); font-size: 0.78rem; }
-  .admin-item-actions { display: flex; align-items: center; gap: 0.5rem; }
-  .price-input { width: 70px; padding: 0.35rem 0.5rem; border: 1.5px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 0.85rem; }
-
-  /* ─── REQUEST CARD ─── */
-  .request-card {
-    background: #fffbeb; border-radius: 12px; padding: 1rem;
-    margin-bottom: 0.8rem; border-left: 4px solid var(--accent);
-  }
-  .request-card h4 { font-size: 0.9rem; margin-bottom: 0.3rem; }
-  .request-card p { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.1rem; }
-  .request-card .req-actions { display: flex; margin-top: 0.8rem; }
-
-  /* ─── MODALS ─── */
-  .modal {
-    display: none; position: fixed; inset: 0;
-    background: rgba(15,10,40,0.7); backdrop-filter: blur(4px);
-    justify-content: center; align-items: center; z-index: 1000;
-  }
-  .modal.open { display: flex; }
-  .modal-content {
-    background: var(--surface); padding: 2rem; border-radius: 20px;
-    max-width: 480px; width: 90%; max-height: 90vh;
-    overflow-y: auto; box-shadow: 0 24px 64px rgba(0,0,0,0.25);
-  }
-  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-  .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); line-height: 1; }
-
-  /* ─── LOGIN MODAL ─── */
-  .login-modal {
-    display: none; position: fixed; inset: 0;
-    background: rgba(15,10,40,0.85); backdrop-filter: blur(6px);
-    justify-content: center; align-items: center; z-index: 2000;
-  }
-  .login-modal.open { display: flex; }
-  .login-box {
-    background: var(--surface); padding: 2.2rem; border-radius: 20px;
-    width: 360px; text-align: center; box-shadow: 0 24px 64px rgba(0,0,0,0.3);
-  }
-  .login-box h2 { margin-bottom: 1.2rem; font-size: 1.3rem; }
-  .error-msg { color: var(--danger); font-size: 0.85rem; margin-top: 0.5rem; min-height: 1.2em; }
-
-  /* ─── MMO BUTTONS ─── */
-  .mmo-options { display: flex; gap: 1rem; margin: 1rem 0; }
-  .mmo-btn {
-    flex: 1; padding: 0.8rem; border: 2px solid var(--border); border-radius: 10px;
-    cursor: pointer; font-weight: 700; font-size: 0.9rem; text-align: center;
-    transition: all 0.2s; background: #fff; font-family: inherit;
-  }
-  .mmo-btn:hover { border-color: var(--primary-light); background: #f5f3ff; }
-  .mmo-btn.selected { border-color: var(--primary); background: #ede9fe; color: var(--primary); }
-  .btn-cancel {
-    margin-top: 0.6rem; background: var(--border); color: var(--text-muted);
-    border: none; padding: 0.6rem; border-radius: 50px;
-    cursor: pointer; font-weight: 600; width: 100%; font-family: inherit;
+    color: white; border: none; padding: 0.75rem;
+    border-radius: 50px; width: 100%; font-weight: 700;
+    cursor: pointer; margin-top: 0.8rem;
   }
 
-  /* ─── PAYMENT STATUS BANNER ─── */
-  .payment-banner {
-    display: none;
-    background: linear-gradient(135deg, #059669, #047857);
-    color: white; padding: 1.2rem 2rem; text-align: center;
-    font-weight: 700; font-size: 1rem;
+  /* Filter */
+  .filter-bar {
+    background: var(--surface); padding: 1.2rem;
+    border-radius: var(--radius); margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
   }
-  .payment-banner.show { display: block; }
-  .payment-banner.failed { background: linear-gradient(135deg, var(--danger), #b91c1c); }
 
-  /* ─── EMPTY STATE ─── */
-  .empty-state { text-align: center; padding: 2.5rem; color: var(--text-muted); }
-  .empty-state .empty-icon { font-size: 3rem; margin-bottom: 0.5rem; }
-
-  /* ─── TOAST ─── */
+  /* Toast */
   #toast {
-    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(80px);
-    background: var(--primary); color: white; padding: 0.8rem 1.6rem;
-    border-radius: 50px; font-weight: 600; font-size: 0.9rem;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.2); z-index: 9999;
-    transition: transform 0.3s ease; pointer-events: none;
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--primary); color: white;
+    padding: 1rem 1.8rem; border-radius: 50px;
+    font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    z-index: 9999; opacity: 0; transition: all 0.4s;
   }
-  #toast.show { transform: translateX(-50%) translateY(0); }
-  #toast.success { background: #059669; }
-  #toast.error   { background: var(--danger); }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  /* ─── FOOTER ─── */
-  footer {
-    background: #1e1b4b; color: rgba(255,255,255,0.7);
-    text-align: center; padding: 1.5rem; margin-top: 3rem; font-size: 0.85rem;
-  }
+  .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; z-index: 2000; }
+  .modal.open { display: flex; }
+  .modal-content { background: white; padding: 2rem; border-radius: 20px; width: 90%; max-width: 500px; }
 
-  @media (max-width: 768px) {
-    .hero h1 { font-size: 1.8rem; }
-    .container { padding: 1rem; }
-    .nav-links { gap: 0.4rem; }
-    .nav-btn { padding: 0.45rem 0.8rem; font-size: 0.78rem; }
-  }
+  footer { text-align: center; padding: 2rem; color: #666; margin-top: 3rem; }
 </style>
 </head>
 <body>
 
-<!-- Toast Notification -->
+<!-- Toast -->
 <div id="toast"></div>
 
-<!-- Payment Result Banner (shown after PesaPal redirects back) -->
-<div id="payment-banner" class="payment-banner">
-  <span id="payment-banner-msg"></span>
-</div>
-
-<!-- ─── ADMIN LOGIN MODAL ─── -->
-<div id="login-modal" class="login-modal">
-  <div class="login-box">
-    <div style="font-size:2.8rem;margin-bottom:0.5rem;">🔐</div>
-    <h2>Admin Login</h2>
-    <div class="form-group">
-      <label>Username</label>
-      <input type="text" id="login-username" placeholder="Enter username" autocomplete="username">
-    </div>
-    <div class="form-group">
-      <label>Password</label>
-      <div class="password-field">
-        <input type="password" id="login-password" placeholder="Enter password" autocomplete="current-password">
-        <button type="button" class="password-toggle" id="togglePasswordBtn">Show</button>
-      </div>
-    </div>
-    <button class="btn-primary" id="loginBtn">Login</button>
-    <div id="login-error" class="error-msg"></div>
-    <button class="btn-cancel" id="loginCancelBtn" style="margin-top:1rem;">Cancel</button>
-  </div>
-</div>
-
-<!-- ─── NAVBAR ─── -->
+<!-- Navbar -->
 <nav class="navbar">
   <div class="nav-container">
     <div class="logo">📚 Eduverse</div>
@@ -338,89 +166,32 @@
       <button class="nav-btn" id="adminPortalBtn">👑 Admin</button>
       <button class="nav-btn active" id="teacherPortalBtn">👩‍🏫 Teacher</button>
       <button class="nav-btn" id="pupilPortalBtn">🎓 Pupil</button>
-      <button class="nav-btn request-btn" id="requestUploadBtn">📤 Request Upload</button>
-      <button class="nav-btn logout-btn" id="logoutBtn" style="display:none;">🚪 Logout</button>
+      <button class="nav-btn" id="logoutBtn" style="display:none;">Logout</button>
     </div>
   </div>
 </nav>
 
-<!-- ─── HERO ─── -->
+<!-- Hero -->
 <div class="hero">
-  <div class="hero-content">
-    <h1>✨ Welcome to Eduverse</h1>
-    <p>Your gateway to quality educational resources — learn, teach, and grow.</p>
-  </div>
+  <h1>Welcome to Eduverse</h1>
+  <p>Quality educational resources at your fingertips</p>
 </div>
 
-<!-- ─── MAIN CONTENT ─── -->
 <div class="container">
 
   <!-- ADMIN PORTAL -->
   <section id="portal-admin" class="portal-section">
     <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon">📄</div>
-        <div><div class="stat-number" id="total-docs">0</div><div class="stat-label">Total Documents</div></div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">⏳</div>
-        <div><div class="stat-number" id="pending-count-stat">0</div><div class="stat-label">Pending Approvals</div></div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">💰</div>
-        <div><div class="stat-number" id="total-revenue">0</div><div class="stat-label">Catalogue Value (K)</div></div>
-      </div>
+      <div class="stat-card"><div>📄</div><div><strong id="total-docs">0</strong><br>Total Documents</div></div>
+      <div class="stat-card"><div>💰</div><div><strong id="total-revenue">0</strong><br>Catalogue Value</div></div>
     </div>
-
-    <!-- File Upload Area -->
-    <div class="upload-area" id="adminUploadArea">
-      <div class="upload-icon">📤</div>
-      <h3>Click to Upload Document (Admin)</h3>
-      <p style="color:var(--text-muted);font-size:0.85rem;margin-top:0.3rem;">PDF, DOC, DOCX, PPT, XLS — Max 10 MB</p>
-      <input type="file" id="file-input" style="display:none" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx">
-    </div>
-    <div id="file-name-display" style="text-align:center;margin-bottom:1rem;font-size:0.85rem;color:var(--primary);font-weight:600;"></div>
-
-    <!-- Add Document Form -->
     <div class="section-card">
-      <h3>➕ Add New Document</h3>
-      <div id="uploadForm">
-        <div class="form-group"><label>Title</label><input type="text" id="up-title" required placeholder="Document title"></div>
-        <div class="form-group">
-          <label>Category</label>
-          <select id="up-category">
-            <option>Curriculum book</option>
-            <option>Syllabus</option>
-            <option>Schemes of work</option>
-            <option>Text books</option>
-            <option>Past examination papers</option>
-            <option>Lesson plans</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Audience</label>
-          <select id="up-audience">
-            <option value="Teacher">Teachers Only</option>
-            <option value="Both">Both Teachers &amp; Pupils</option>
-          </select>
-        </div>
-        <div class="form-group"><label>Price (ZMW)</label><input type="number" id="up-price" value="5" min="0" step="0.01"></div>
-        <button type="button" id="addDocBtn" class="btn-primary">➕ Add to Catalogue</button>
-      </div>
-    </div>
-
-    <!-- Pending Upload Requests -->
-    <div class="section-card">
-      <h3>⏳ Pending Upload Requests
-        <span id="pending-count-badge" style="background:var(--accent);color:#fff;padding:0.15rem 0.7rem;border-radius:20px;font-size:0.75rem;margin-left:0.5rem;">0</span>
-      </h3>
-      <div id="pending-requests-list"></div>
-    </div>
-
-    <!-- Manage Documents -->
-    <div class="section-card">
-      <h3>📋 Manage Documents</h3>
-      <div id="admin-list"></div>
+      <h3>Upload New Document</h3>
+      <!-- Your upload form here -->
+      <form id="uploadForm">
+        <input type="file" id="file-input" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx">
+        <button type="submit" class="btn-pay">Upload to Catalogue</button>
+      </form>
     </div>
   </section>
 
@@ -429,7 +200,7 @@
     <div class="filter-bar">
       <label>Filter by Category</label>
       <select id="teacher-filter">
-        <option>All</option>
+        <option value="">All Categories</option>
         <option>Curriculum book</option>
         <option>Syllabus</option>
         <option>Schemes of work</option>
@@ -446,7 +217,7 @@
     <div class="filter-bar">
       <label>Filter by Category</label>
       <select id="pupil-filter">
-        <option>All</option>
+        <option value="">All Categories</option>
         <option>Text books</option>
         <option>Past examination papers</option>
       </select>
@@ -454,24 +225,59 @@
     <div class="catalogue-grid" id="pupil-catalogue"></div>
   </section>
 
-</div><!-- /container -->
+</div>
 
-<!-- ─── REQUEST UPLOAD MODAL ─── -->
-<div class="modal" id="request-modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3>📤 Request to Upload Document</h3>
-      <button class="modal-close" id="closeRequestModalBtn">&times;</button>
+<footer>
+  Eduverse © 2026 • Powered by Pesapal & Firebase
+</footer>
+
+<!-- Scripts -->
+<script src="config.js"></script>
+<script src="payment.js"></script>
+<script>
+// Tab Navigation
+const tabs = {
+  admin: document.getElementById('adminPortalBtn'),
+  teacher: document.getElementById('teacherPortalBtn'),
+  pupil: document.getElementById('pupilPortalBtn')
+};
+
+Object.keys(tabs).forEach(key => {
+  tabs[key].addEventListener('click', () => {
+    document.querySelectorAll('.portal-section').forEach(s => s.classList.remove('active'));
+    document.getElementById(`portal-${key}`).classList.add('active');
+
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    tabs[key].classList.add('active');
+  });
+});
+
+// Example Document Rendering (Replace with real fetch from backend)
+function renderDocuments(containerId, isTeacher) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = `
+    <div class="document-card">
+      <div class="card-image">📘</div>
+      <div class="card-content">
+        <h3 class="card-title">Sample Mathematics Notes</h3>
+        <p class="card-price">K 5.00</p>
+        <button class="btn-pay" onclick="buyDocument(1, 'Sample Mathematics Notes', 5)">Pay with Mobile Money</button>
+      </div>
     </div>
-    <p style="margin-bottom:1rem;color:var(--text-muted);font-size:0.85rem;">Submit your document for admin review and approval.</p>
-    <div id="requestForm">
-      <div class="form-group"><label>Your Name</label><input type="text" id="req-name" placeholder="Full name"></div>
-      <div class="form-group"><label>Your Email</label><input type="email" id="req-email" placeholder="email@example.com"></div>
-      <div class="form-group"><label>Document Title</label><input type="text" id="req-title" placeholder="e.g. Grade 12 Mathematics Notes"></div>
-      <div class="form-group">
-        <label>Category</label>
-        <select id="req-category">
-          <option>Curriculum book</option>
-          <option>Syllabus</option>
-          <option>Schemes of work</option>
-         
+    <!-- Add more cards as needed -->
+  `;
+}
+
+function buyDocument(id, title, price) {
+  const buyerName = prompt("Enter your name:") || "Student";
+  const buyerEmail = prompt("Enter your email:") || "user@example.com";
+  initiatePayment(id, title, price, buyerEmail, buyerName);
+}
+
+// Initial Render
+renderDocuments('teacher-catalogue', true);
+renderDocuments('pupil-catalogue', false);
+
+</script>
+</body>
+</html>
