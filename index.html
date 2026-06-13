@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wilpower Institute - Eduverse</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #0f766e; --primary-light: #14b8a6; --accent-2: #10b981;
+    --bg: #f8fafc; --surface: #ffffff; --text: #1e2937; --text-muted: #64748b;
+    --border: #e2e8f0; --radius: 16px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  .navbar { background: var(--surface); box-shadow: 0 1px 0 var(--border); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
+  .nav-container { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+  .logo-container { display: flex; align-items: center; gap: 12px; }
+  .logo-img { height: 52px; }
+  .brand-name { font-size: 1.55rem; font-weight: 800; color: var(--primary); }
+
+  .hero { background: linear-gradient(135deg, var(--primary) 0%, #0f766e 100%); color: white; text-align: center; padding: 5rem 1rem 3.5rem; }
+  .hero h1 { font-size: 2.9rem; font-weight: 800; }
+  .hero p { font-size: 1.2rem; opacity: 0.95; font-style: italic; }
+
+  .container { max-width: 1300px; margin: 0 auto; padding: 2rem 1rem; }
+  .portal-section { display: none; }
+  .portal-section.active { display: block; }
+
+  .catalogue-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.6rem; }
+  .document-card { background: var(--surface); border-radius: var(--radius); overflow: hidden; box-shadow: 0 4px 24px rgba(15,118,110,0.1); transition: all 0.3s; }
+  .document-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(15,118,110,0.18); }
+  .card-image { height: 145px; background: linear-gradient(135deg, var(--primary), #14b8a6); display: flex; align-items: center; justify-content: center; font-size: 3.8rem; color: white; }
+  .card-content { padding: 1.3rem; }
+  .card-title { font-size: 1.12rem; font-weight: 700; margin: 0.6rem 0 0.4rem; }
+  .card-price { font-size: 1.55rem; font-weight: 800; color: var(--accent-2); }
+  .btn-pay { background: linear-gradient(135deg, var(--primary-light), var(--primary)); color: white; border: none; padding: 0.85rem; border-radius: 50px; width: 100%; font-weight: 700; cursor: pointer; margin-top: 1rem; }
+
+  .modal { display: none; position: fixed; inset: 0; background: rgba(15,118,110,0.85); align-items: center; justify-content: center; z-index: 2000; }
+  .modal.open { display: flex; }
+  .modal-content { background: var(--surface); padding: 2rem; border-radius: 20px; width: 90%; max-width: 420px; box-shadow: 0 25px 60px rgba(0,0,0,0.3); }
+
+  #toast { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 1rem 2rem; border-radius: 50px; font-weight: 600; z-index: 9999; opacity: 0; transition: all 0.4s; }
+  #toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo-container">
+      <img src="wilpower-logo.png" alt="Wilpower Institute" class="logo-img">
+      <div class="brand-name">Eduverse</div>
+    </div>
+    <div class="nav-links">
+      <button class="nav-btn active" id="teacherPortalBtn">👩‍🏫 Teacher</button>
+      <button class="nav-btn" id="pupilPortalBtn">🎓 Pupil</button>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>Welcome to Eduverse</h1>
+  <p>"Innovate. Educate. Elevate."</p>
+</div>
+
+<div class="container">
+  <section id="portal-teacher" class="portal-section active">
+    <div class="catalogue-grid" id="teacher-catalogue"></div>
+  </section>
+</div>
+
+<!-- Payment Modal -->
+<div id="payment-modal" class="modal">
+  <div class="modal-content">
+    <h3>💳 Complete Payment</h3>
+    <div class="form-group"><label>Full Name</label><input type="text" id="buyer-name" placeholder="Enter your full name"></div>
+    <div class="form-group"><label>Email</label><input type="email" id="buyer-email" placeholder="you@example.com"></div>
+    <button onclick="proceedWithPayment()" class="btn-pay">Proceed to Mobile Money</button>
+    <button onclick="closePaymentModal()" style="margin-top:10px;background:none;border:1px solid #ddd;width:100%;padding:12px;border-radius:50px;cursor:pointer;">Cancel</button>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="payment.js"></script>
+<script>
+let currentDoc = {};
+
+function buyDocument(id, title, price) {
+  currentDoc = {id, title, price};
+  document.getElementById('payment-modal').classList.add('open');
+}
+
+function proceedWithPayment() {
+  const name = document.getElementById('buyer-name').value.trim();
+  const email = document.getElementById('buyer-email').value.trim();
+  if (!name || !email) return alert("Name and Email required");
+  closePaymentModal();
+  initiatePayment(currentDoc.id, currentDoc.title, currentDoc.price, email, name);
+}
+
+function closePaymentModal() {
+  document.getElementById('payment-modal').classList.remove('open');
+}
+
+// Sample Documents
+function renderDocuments() {
+  const container = document.getElementById('teacher-catalogue');
+  container.innerHTML = `
+    <div class="document-card">
+      <div class="card-image">📘</div>
+      <div class="card-content">
+        <h3 class="card-title">Grade 12 Mathematics Notes</h3>
+        <p class="card-price">K 5.00</p>
+        <button class="btn-pay" onclick="buyDocument(1, 'Grade 12 Mathematics Notes', 5)">Pay with Airtel / MTN</button>
+      </div>
+    </div>
+  `;
+}
+renderDocuments();
+</script>
+</body>
+  </html>
