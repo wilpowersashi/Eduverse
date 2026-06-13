@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wilpower Institute - Eduverse</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #0f766e;
+    --primary-light: #14b8a6;
+    --accent: #f59e0b;
+    --accent-2: #10b981;
+    --danger: #ef4444;
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --text: #1e2937;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --shadow: 0 4px 24px rgba(15,118,110,0.10);
+    --radius: 16px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* Navbar */
+  .navbar {
+    background: var(--surface);
+    box-shadow: 0 1px 0 var(--border), var(--shadow);
+    padding: 1rem 2rem;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-container {
+    max-width: 1300px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .logo-container {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .logo-img {
+    height: 52px;
+    width: auto;
+  }
+  .brand-name {
+    font-size: 1.55rem; font-weight: 800; color: var(--primary);
+    letter-spacing: -0.5px;
+  }
+  .nav-links { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .nav-btn {
+    background: transparent; color: var(--text-muted);
+    border: 1.5px solid var(--border);
+    padding: 0.65rem 1.25rem; border-radius: 50px;
+    cursor: pointer; font-weight: 600; font-size: 0.92rem;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { border-color: var(--primary); color: var(--primary); }
+  .nav-btn.active {
+    background: var(--primary); color: white; border-color: var(--primary);
+  }
+
+  .hero {
+    background: linear-gradient(135deg, var(--primary) 0%, #0f766e 100%);
+    color: white; text-align: center; padding: 5rem 1rem 3.5rem;
+  }
+  .hero h1 { font-size: 2.9rem; font-weight: 800; margin-bottom: 0.6rem; }
+  .hero p { font-size: 1.2rem; opacity: 0.95; font-style: italic; }
+
+  .container { max-width: 1300px; margin: 0 auto; padding: 2rem 1rem; }
+
+  .portal-section { display: none; }
+  .portal-section.active { display: block; animation: fadeIn 0.4s; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  .stat-card {
+    background: var(--surface); padding: 1.6rem;
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; gap: 1rem;
+  }
+
+  .filter-bar {
+    background: var(--surface); padding: 1.3rem;
+    border-radius: var(--radius); margin-bottom: 1.8rem;
+    border: 1px solid var(--border);
+  }
+
+  .catalogue-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.6rem;
+  }
+  .document-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+  }
+  .document-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(15,118,110,0.18);
+  }
+  .card-image {
+    height: 145px;
+    background: linear-gradient(135deg, var(--primary), #14b8a6);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3.8rem;
+    color: white;
+  }
+  .card-content { padding: 1.3rem; }
+  .card-title { font-size: 1.12rem; font-weight: 700; margin: 0.6rem 0 0.4rem; }
+  .card-price { font-size: 1.55rem; font-weight: 800; color: var(--accent-2); }
+  .btn-pay {
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+    color: white; border: none; padding: 0.85rem;
+    border-radius: 50px; width: 100%; font-weight: 700;
+    cursor: pointer; margin-top: 1rem; font-size: 1rem;
+  }
+
+  /* Payment Modal */
+  .modal {
+    display: none; position: fixed; inset: 0;
+    background: rgba(15,118,110,0.85); backdrop-filter: blur(6px);
+    align-items: center; justify-content: center; z-index: 2000;
+  }
+  .modal.open { display: flex; }
+  .modal-content {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 420px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+  }
+  .modal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 1.2rem;
+  }
+  .modal-close {
+    font-size: 1.8rem; cursor: pointer; color: var(--text-muted);
+  }
+
+  .form-group { margin-bottom: 1.1rem; }
+  .form-group label {
+    display: block; margin-bottom: 0.4rem;
+    font-weight: 600; color: var(--text);
+  }
+  .form-group input {
+    width: 100%; padding: 0.8rem 1rem;
+    border: 1.5px solid var(--border); border-radius: 10px;
+    font-size: 1rem;
+  }
+
+  #toast {
+    position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
+    background: var(--primary); color: white;
+    padding: 1rem 2rem; border-radius: 50px;
+    font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    z-index: 9999; opacity: 0; transition: all 0.4s ease;
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  footer { text-align: center; padding: 2.5rem 1rem; color: #666; margin-top: 4rem; font-size: 0.95rem; }
+</style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo-container">
+      <img src="wilpower-logo.png" alt="Wilpower Institute" class="logo-img">
+      <div class="brand-name">Eduverse</div>
+    </div>
+    <div class="nav-links">
+      <button class="nav-btn" id="adminPortalBtn">👑 Admin</button>
+      <button class="nav-btn active" id="teacherPortalBtn">👩‍🏫 Teacher</button>
+      <button class="nav-btn" id="pupilPortalBtn">🎓 Pupil</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>Welcome to Eduverse</h1>
+  <p>"Innovate. Educate. Elevate."</p>
+</div>
+
+<div class="container">
+
+  <!-- TEACHER PORTAL -->
+  <section id="portal-teacher" class="portal-section active">
+    <div class="filter-bar">
+      <label>Filter by Category</label>
+      <select id="teacher-filter">
+        <option value="">All Categories</option>
+        <option>Curriculum book</option>
+        <option>Syllabus</option>
+        <option>Schemes of work</option>
+        <option>Text books</option>
+        <option>Past examination papers</option>
+        <option>Lesson plans</option>
+      </select>
+    </div>
+    <div class="catalogue-grid" id="teacher-catalogue"></div>
+  </section>
+
+  <!-- PUPIL PORTAL -->
+  <section id="portal-pupil" class="portal-section">
+    <div class="filter-bar">
+      <label>Filter by Category</label>
+      <select id="pupil-filter">
+        <option value="">All Categories</option>
+        <option>Text books</option>
+        <option>Past examination papers</option>
+      </select>
+    </div>
+    <div class="catalogue-grid" id="pupil-catalogue"></div>
+  </section>
+
+</div>
+
+<!-- Payment Modal -->
+<div id="payment-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>💳 Complete Payment</h3>
+      <span class="modal-close" onclick="closePaymentModal()">×</span>
+    </div>
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="buyer-name" placeholder="Enter your full name" required>
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="buyer-email" placeholder="you@example.com" required>
+    </div>
+    <div class="form-group">
+      <label>Phone Number (Optional)</label>
+      <input type="tel" id="buyer-phone" placeholder="+260 972 576440">
+    </div>
+    <button onclick="proceedWithPayment()" class="btn-pay" style="margin-top: 1rem;">
+      Proceed to Mobile Money Payment
+    </button>
+    <button onclick="closePaymentModal()" style="margin-top: 0.8rem; background:none; border:1px solid #ddd; color:#666; width:100%; padding:0.8rem; border-radius:50px; cursor:pointer;">
+      Cancel
+    </button>
+  </div>
+</div>
+
+<footer>
+  Wilpower Institute • Eduverse © 2026 • Secure payments by Pesapal
+</footer>
+
+<!-- Scripts -->
+<script src="config.js"></script>
+<script src="payment.js"></script>
+<script>
+// Global variables for current purchase
+let currentDocument = {};
+
+// Tab Navigation
+document.getElementById('adminPortalBtn').addEventListener('click', () => switchPortal('admin'));
+document.getElementById('teacherPortalBtn').addEventListener('click', () => switchPortal('teacher'));
+document.getElementById('pupilPortalBtn').addEventListener('click', () => switchPortal('pupil'));
+
+function switchPortal(portal) {
+  document.querySelectorAll('.portal-section').forEach(s => s.classList.remove('active'));
+  document.getElementById(`portal-${portal}`).classList.add('active');
+
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(portal + 'PortalBtn').classList.add('active');
+}
+
+// Show Payment Modal
+function buyDocument(id, title, price) {
+  currentDocument = { id, title, price };
+  document.getElementById('payment-modal').classList.add('open');
+}
+
+function proceedWithPayment() {
+  const name = document.getElementById('buyer-name').value.trim();
+  const email = document.getElementById('buyer-email').value.trim();
+  const phone = document.getElementById('buyer-phone').value.trim();
+
+  if (!name || !email) {
+    alert("Please enter your name and email");
+    return;
+  }
+
+  closePaymentModal();
+  initiatePayment(currentDocument.id, currentDocument.title, currentDocument.price, email, name, phone);
+}
+
+function closePaymentModal() {
+  document.getElementById('payment-modal').classList.remove('open');
+}
+
+// Sample Documents
+function renderSampleDocuments() {
+  const sampleDocs = [
+    { id: 1, title: "Grade 12 Mathematics Notes", price: 5, category: "Text books" },
+    { id: 2, title: "English Past Papers 2020-2024", price: 7, category: "Past examination papers" }
+  ];
+
+  const teacherContainer = document.getElementById('teacher-catalogue');
+  teacherContainer.innerHTML = '';
+
+  sampleDocs.forEach(doc => {
+    const card = document.createElement('div');
+    card.className = 'document-card';
+    card.innerHTML = `
+      <div class="card-image">📘</div>
+      <div class="card-content">
+        <h3 class="card-title">${doc.title}</h3>
+        <p class="card-price">K ${doc.price}.00</p>
+        <button class="btn-pay" onclick="buyDocument(\( {doc.id}, ' \){doc.title}', ${doc.price})">
+          Pay with Airtel / MTN
+        </button>
+      </div>
+    `;
+    teacherContainer.appendChild(card);
+  });
+}
+
+// Initialize
+renderSampleDocuments();
+</script>
+</body>
+  </html>
