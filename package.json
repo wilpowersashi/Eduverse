@@ -1,0 +1,16 @@
+{
+  "name": "eduverse",
+  "version": "1.0.0",
+  "description": "Wilpower Institute Eduverse Platform",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}
