@@ -114,11 +114,11 @@
   /* Portal Sections */
   .portal-section { 
     display: none; 
-    animation: fadeIn 0.3s ease;
   }
   
   .portal-section.active { 
     display: block; 
+    animation: fadeIn 0.3s ease;
   }
 
   @keyframes fadeIn {
@@ -179,11 +179,18 @@
     cursor: pointer; 
     transition: all 0.3s;
     font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.9rem;
+    display: inline-block;
+    text-align: center;
   }
 
   .btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  .btn:active {
+    transform: translateY(0);
   }
 
   .btn:disabled {
@@ -201,6 +208,11 @@
     border: 2px solid var(--primary); 
     color: var(--primary); 
   }
+  .btn-outline-light {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+  }
 
   .btn-sm {
     padding: 8px 16px;
@@ -209,6 +221,7 @@
 
   .btn-block {
     width: 100%;
+    display: block;
   }
 
   /* Forms */
@@ -245,6 +258,10 @@
     align-items:center; 
     justify-content:center; 
     z-index:2000; 
+  }
+  
+  .modal.show {
+    display: flex;
     animation: fadeIn 0.3s ease;
   }
   
@@ -269,15 +286,17 @@
   .close-btn {
     background: none;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     cursor: pointer;
     color: #666;
     padding: 4px 8px;
     border-radius: 8px;
+    line-height: 1;
   }
 
   .close-btn:hover {
     background: #f0f0f0;
+    color: #333;
   }
 
   /* AI Chat Styles */
@@ -305,6 +324,7 @@
     padding: 12px 16px;
     border-radius: 16px;
     animation: fadeIn 0.3s ease;
+    word-wrap: break-word;
   }
 
   .chat-message.user {
@@ -325,6 +345,7 @@
     display: flex;
     gap: 4px;
     padding: 12px 16px;
+    align-self: flex-start;
   }
 
   .typing-dot {
@@ -382,6 +403,7 @@
     cursor: pointer;
     text-align: center;
     transition: all 0.3s;
+    background: white;
   }
 
   .payment-method:hover {
@@ -393,6 +415,7 @@
     border-color: var(--primary);
     background: #e0f2fe;
     font-weight: 700;
+    box-shadow: 0 0 0 2px var(--primary-light);
   }
 
   .payment-method-icon {
@@ -441,11 +464,20 @@
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s;
+    border: 1px solid transparent;
   }
 
   .subject-list li:hover {
     background: var(--primary);
     color: white;
+    border-color: var(--primary);
+  }
+
+  /* Active Tab Indicator */
+  .nav-btn.active-tab {
+    background: var(--primary);
+    color: white !important;
+    border-color: var(--primary);
   }
 
   /* Footer */
@@ -479,10 +511,19 @@
     .navbar {
       flex-direction: column;
       text-align: center;
+      padding: 1rem;
     }
     
     .nav-buttons {
       justify-content: center;
+      width: 100%;
+    }
+    
+    .nav-buttons .btn {
+      flex: 1;
+      min-width: 70px;
+      font-size: 0.75rem;
+      padding: 8px 12px;
     }
     
     .hero h1 {
@@ -497,9 +538,12 @@
       max-width: 90%;
     }
     
-    .btn {
-      padding: 10px 20px;
-      font-size: 0.9rem;
+    .document-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .container {
+      padding: 1rem 0.5rem;
     }
   }
 </style>
@@ -516,9 +560,9 @@
     </div>
   </div>
   <div class="nav-buttons">
-    <button onclick="switchPortal('admin')" class="btn btn-outline btn-sm">👑 Admin</button>
-    <button onclick="switchPortal('teacher')" class="btn btn-outline btn-sm">👩‍🏫 Teacher</button>
-    <button onclick="switchPortal('pupil')" class="btn btn-outline btn-sm">🎓 Pupil</button>
+    <button onclick="switchPortal('admin')" class="btn btn-outline btn-sm nav-btn" id="nav-admin">👑 Admin</button>
+    <button onclick="switchPortal('teacher')" class="btn btn-outline btn-sm nav-btn active-tab" id="nav-teacher">👩‍🏫 Teacher</button>
+    <button onclick="switchPortal('pupil')" class="btn btn-outline btn-sm nav-btn" id="nav-pupil">🎓 Pupil</button>
     <button onclick="openAITutor()" class="btn btn-accent btn-sm">🤖 AI Tutor</button>
   </div>
 </nav>
@@ -651,7 +695,7 @@
       <ul class="subject-list">
         <li onclick="quickQuestion('Explain photosynthesis in simple terms')">🌿 Biology</li>
         <li onclick="quickQuestion('Solve this quadratic equation: x² + 5x + 6 = 0')">📐 Mathematics</li>
-        <li onclick="quickQuestion('Explain Newton\'s laws of motion')">⚡ Physics</li>
+        <li onclick="quickQuestion('Explain Newton laws of motion')">⚡ Physics</li>
         <li onclick="quickQuestion('What are the branches of government in Zambia?')">🏛️ Civic Education</li>
         <li onclick="quickQuestion('Explain the water cycle')">🌍 Geography</li>
       </ul>
@@ -707,6 +751,7 @@
       <p style="font-weight:800;color:var(--success);font-size:1.3rem;">
         Amount: K<span id="payment-item-price">0</span>.00
       </p>
+      <p style="font-size:0.8rem;color:#666;margin-top:4px;">Payment processed by PesaPal</p>
     </div>
 
     <label>Full Name *</label>
@@ -721,39 +766,4 @@
     <label>Select Payment Method:</label>
     <div class="payment-methods">
       <div class="payment-method" onclick="selectPaymentMethod('airtel')" id="method-airtel">
-        <div class="payment-method-icon">📱</div>
-        <strong>Airtel Money</strong>
-      </div>
-      <div class="payment-method" onclick="selectPaymentMethod('mtn')" id="method-mtn">
-        <div class="payment-method-icon">📱</div>
-        <strong>MTN Money</strong>
-      </div>
-    </div>
-
-    <button onclick="proceedWithPayment()" class="btn btn-success btn-block" id="pay-button">
-      💳 Pay Now
-    </button>
-    <button onclick="closePaymentModal()" class="btn btn-outline btn-block" style="margin-top:8px;">
-      Cancel Payment
-    </button>
-  </div>
-</div>
-
-<!-- Footer -->
-<div class="footer">
-  <p>© 2026 Eduverse - Wilpower Institute | Innovate. Educate. Elevate.</p>
-  <p style="font-size:0.8rem;margin-top:4px;">Secured by PesaPal | Merchant: +260 972 576 440</p>
-</div>
-
-<script>
-// ============ APP STATE ============
-let selectedPaymentMethod = '';
-let currentPurchaseTitle = '';
-let currentPurchasePrice = 0;
-let aiSessionActive = false;
-let aiSessionPaid = false;
-let chatHistory = [];
-
-// PesaPal Configuration
-const PESAPAL_CONFIG = {
-  consumerK
+        <div cla
