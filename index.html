@@ -3,124 +3,187 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wilpower Institute - Eduverse</title>
+<title>Eduverse - Wilpower Institute</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --primary: #0f766e; --primary-light: #14b8a6; --accent-2: #10b981;
-    --bg: #f8fafc; --surface: #ffffff; --text: #1e2937; --text-muted: #64748b;
-    --border: #e2e8f0; --radius: 16px;
+    --primary: #0f766e; --primary-light: #14b8a6; --accent: #f59e0b;
+    --bg: #f8fafc; --surface: #ffffff; --text: #1e2937;
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); min-height:100vh; }
 
-  .navbar { background: var(--surface); box-shadow: 0 1px 0 var(--border); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
-  .nav-container { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-  .logo-container { display: flex; align-items: center; gap: 12px; }
-  .logo-img { height: 52px; }
-  .brand-name { font-size: 1.55rem; font-weight: 800; color: var(--primary); }
-
-  .hero { background: linear-gradient(135deg, var(--primary) 0%, #0f766e 100%); color: white; text-align: center; padding: 5rem 1rem 3.5rem; }
-  .hero h1 { font-size: 2.9rem; font-weight: 800; }
-  .hero p { font-size: 1.2rem; opacity: 0.95; font-style: italic; }
+  .navbar { background: white; padding: 1rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top:0; z-index:100; display:flex; justify-content:space-between; align-items:center; }
+  .hero { background: linear-gradient(135deg, var(--primary), #0f766e); color:white; padding: 4rem 1rem; text-align:center; }
 
   .container { max-width: 1300px; margin: 0 auto; padding: 2rem 1rem; }
   .portal-section { display: none; }
   .portal-section.active { display: block; }
 
-  .catalogue-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.6rem; }
-  .document-card { background: var(--surface); border-radius: var(--radius); overflow: hidden; box-shadow: 0 4px 24px rgba(15,118,110,0.1); transition: all 0.3s; }
-  .document-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(15,118,110,0.18); }
-  .card-image { height: 145px; background: linear-gradient(135deg, var(--primary), #14b8a6); display: flex; align-items: center; justify-content: center; font-size: 3.8rem; color: white; }
-  .card-content { padding: 1.3rem; }
-  .card-title { font-size: 1.12rem; font-weight: 700; margin: 0.6rem 0 0.4rem; }
-  .card-price { font-size: 1.55rem; font-weight: 800; color: var(--accent-2); }
-  .btn-pay { background: linear-gradient(135deg, var(--primary-light), var(--primary)); color: white; border: none; padding: 0.85rem; border-radius: 50px; width: 100%; font-weight: 700; cursor: pointer; margin-top: 1rem; }
+  .upload-area { border: 3px dashed var(--primary-light); border-radius: 16px; padding: 3rem; text-align: center; cursor: pointer; background: #f0fdfa; }
+  .document-card { background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 1rem; }
+  .btn { padding: 12px 24px; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; }
+  .btn-primary { background: var(--primary); color: white; }
+  .btn-success { background: #10b981; color: white; }
+  .btn-accent { background: var(--accent); color: white; }
 
-  .modal { display: none; position: fixed; inset: 0; background: rgba(15,118,110,0.85); align-items: center; justify-content: center; z-index: 2000; }
-  .modal.open { display: flex; }
-  .modal-content { background: var(--surface); padding: 2rem; border-radius: 20px; width: 90%; max-width: 420px; box-shadow: 0 25px 60px rgba(0,0,0,0.3); }
+  .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); align-items:center; justify-content:center; z-index:2000; }
+  .modal-content { background:white; padding:2rem; border-radius:20px; width:90%; max-width:500px; max-height:90vh; overflow-y:auto; }
 
-  #toast { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 1rem 2rem; border-radius: 50px; font-weight: 600; z-index: 9999; opacity: 0; transition: all 0.4s; }
-  #toast.show { opacity: 1; }
+  .chat-box { height: 300px; border: 1px solid #ddd; border-radius: 12px; padding: 1rem; overflow-y:auto; margin: 1rem 0; background: #f8fafc; }
 </style>
 </head>
 <body>
 
-<div id="toast"></div>
-
 <nav class="navbar">
-  <div class="nav-container">
-    <div class="logo-container">
-      <img src="wilpower-logo.png" alt="Wilpower Institute" class="logo-img">
-      <div class="brand-name">Eduverse</div>
-    </div>
-    <div class="nav-links">
-      <button class="nav-btn active" id="teacherPortalBtn">👩‍🏫 Teacher</button>
-      <button class="nav-btn" id="pupilPortalBtn">🎓 Pupil</button>
-    </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <img src="wilpower-logo.png" height="50" alt="Logo">
+    <h2>Eduverse</h2>
+  </div>
+  <div>
+    <button onclick="switchPortal('admin')" class="btn btn-primary">👑 Admin</button>
+    <button onclick="switchPortal('teacher')" class="btn">👩‍🏫 Teacher</button>
+    <button onclick="switchPortal('pupil')" class="btn">🎓 Pupil</button>
+    <button onclick="openAITutor()" class="btn btn-accent">🤖 AI Tutor (ZMW 10)</button>
   </div>
 </nav>
 
 <div class="hero">
-  <h1>Welcome to Eduverse</h1>
-  <p>"Innovate. Educate. Elevate."</p>
+  <h1>Innovate. Educate. Elevate.</h1>
+  <p>Quality Teaching & Learning Materials + AI Tutor</p>
 </div>
 
 <div class="container">
-  <section id="portal-teacher" class="portal-section active">
-    <div class="catalogue-grid" id="teacher-catalogue"></div>
+
+  <!-- ADMIN PORTAL -->
+  <section id="portal-admin" class="portal-section">
+    <h2>👑 Admin Dashboard</h2>
+    <div class="upload-area" onclick="document.getElementById('file-input').click()">
+      <h3>📤 Upload New Material</h3>
+      <p>PDF, DOCX, PPTX, XLSX — Max 50MB</p>
+      <input type="file" id="file-input" style="display:none" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx">
+    </div>
+    <div id="admin-list" style="margin-top:2rem;"></div>
   </section>
+
+  <!-- TEACHER PORTAL -->
+  <section id="portal-teacher" class="portal-section active">
+    <h2>👩‍🏫 Teacher Portal</h2>
+    <div id="teacher-catalogue" class="document-card"></div>
+  </section>
+
+  <!-- PUPIL PORTAL -->
+  <section id="portal-pupil" class="portal-section">
+    <h2>🎓 Pupil Portal</h2>
+    <div id="pupil-catalogue" class="document-card"></div>
+  </section>
+</div>
+
+<!-- AI Tutor Modal -->
+<div id="ai-tutor-modal" class="modal">
+  <div class="modal-content">
+    <h3>🤖 AI Tutor - ZMW 10 per Session</h3>
+    <p>Ask any question about your subject</p>
+    
+    <div class="chat-box" id="chat-messages"></div>
+    
+    <input type="text" id="ai-question" placeholder="Ask anything (e.g. Explain photosynthesis)" style="width:100%;padding:12px;border-radius:12px;margin-bottom:10px;">
+    <button onclick="sendToAI()" class="btn btn-primary" style="width:100%;">Send Question (Pay ZMW 10)</button>
+    <button onclick="closeAITutor()" style="margin-top:10px;width:100%;">Close</button>
+  </div>
 </div>
 
 <!-- Payment Modal -->
 <div id="payment-modal" class="modal">
   <div class="modal-content">
-    <h3>💳 Complete Payment</h3>
-    <div class="form-group"><label>Full Name</label><input type="text" id="buyer-name" placeholder="Enter your full name"></div>
-    <div class="form-group"><label>Email</label><input type="email" id="buyer-email" placeholder="you@example.com"></div>
-    <button onclick="proceedWithPayment()" class="btn-pay">Proceed to Mobile Money</button>
-    <button onclick="closePaymentModal()" style="margin-top:10px;background:none;border:1px solid #ddd;width:100%;padding:12px;border-radius:50px;cursor:pointer;">Cancel</button>
+    <h3>💳 Pay to Access</h3>
+    <input type="text" id="buyer-name" placeholder="Full Name" style="width:100%;padding:12px;margin:8px 0;">
+    <input type="email" id="buyer-email" placeholder="Email" style="width:100%;padding:12px;margin:8px 0;">
+    <button onclick="proceedWithPayment()" class="btn btn-primary" style="width:100%;">Pay with Airtel / MTN</button>
+    <button onclick="closePaymentModal()" style="margin-top:10px;width:100%;">Cancel</button>
   </div>
 </div>
 
 <script src="config.js"></script>
 <script src="payment.js"></script>
 <script>
-let currentDoc = {};
+// Portal Switching
+function switchPortal(portal) {
+  document.querySelectorAll('.portal-section').forEach(s => s.classList.remove('active'));
+  document.getElementById(`portal-${portal}`).classList.add('active');
+}
 
-function buyDocument(id, title, price) {
-  currentDoc = {id, title, price};
-  document.getElementById('payment-modal').classList.add('open');
+// Admin Upload
+document.getElementById('file-input').addEventListener('change', function(e) {
+  if (e.target.files.length > 0) {
+    alert(`✅ "${e.target.files[0].name}" uploaded! Pending admin approval.`);
+  }
+});
+
+// Sample Catalogues
+document.getElementById('teacher-catalogue').innerHTML = `<div class="document-card"><h4>Syllabus & Lesson Plans</h4><p>K 5.00</p><button class="btn btn-primary" onclick="buyDocument('Syllabus',5)">Buy</button></div>`;
+document.getElementById('pupil-catalogue').innerHTML = `<div class="document-card"><h4>Past Papers & Modules</h4><p>K 5.00</p><button class="btn btn-primary" onclick="buyDocument('Past Papers',5)">Buy</button></div>`;
+
+// AI Tutor
+let aiSessionPaid = false;
+
+function openAITutor() {
+  document.getElementById('ai-tutor-modal').style.display = 'flex';
+  if (!aiSessionPaid) {
+    document.getElementById('chat-messages').innerHTML = '<p style="color:#666;">Pay ZMW 10 to start AI session</p>';
+  }
+}
+
+function sendToAI() {
+  const question = document.getElementById('ai-question').value.trim();
+  if (!question) return;
+
+  if (!aiSessionPaid) {
+    buyDocument("AI Tutor Session", 10);
+    return;
+  }
+
+  const chat = document.getElementById('chat-messages');
+  chat.innerHTML += `<p><strong>You:</strong> ${question}</p>`;
+  
+  // Mock AI Response
+  setTimeout(() => {
+    chat.innerHTML += `<p><strong>AI Tutor:</strong> Great question! Here's a detailed explanation...</p>`;
+    chat.scrollTop = chat.scrollHeight;
+  }, 800);
+
+  document.getElementById('ai-question').value = '';
+}
+
+function closeAITutor() {
+  document.getElementById('ai-tutor-modal').style.display = 'none';
+}
+
+// Payment Flow
+function buyDocument(title, price) {
+  window.currentTitle = title;
+  window.currentPrice = price;
+  document.getElementById('payment-modal').style.display = 'flex';
 }
 
 function proceedWithPayment() {
   const name = document.getElementById('buyer-name').value.trim();
   const email = document.getElementById('buyer-email').value.trim();
   if (!name || !email) return alert("Name and Email required");
+
   closePaymentModal();
-  initiatePayment(currentDoc.id, currentDoc.title, currentDoc.price, email, name);
+  initiatePayment(999, window.currentTitle, window.currentPrice, email, name);
+  
+  // For AI Tutor
+  if (window.currentTitle === "AI Tutor Session") {
+    aiSessionPaid = true;
+    alert("✅ AI Tutor Session Activated! Ask your questions now.");
+  }
 }
 
 function closePaymentModal() {
-  document.getElementById('payment-modal').classList.remove('open');
+  document.getElementById('payment-modal').style.display = 'none';
 }
-
-// Sample Documents
-function renderDocuments() {
-  const container = document.getElementById('teacher-catalogue');
-  container.innerHTML = `
-    <div class="document-card">
-      <div class="card-image">📘</div>
-      <div class="card-content">
-        <h3 class="card-title">Grade 12 Mathematics Notes</h3>
-        <p class="card-price">K 5.00</p>
-        <button class="btn-pay" onclick="buyDocument(1, 'Grade 12 Mathematics Notes', 5)">Pay with Airtel / MTN</button>
-      </div>
-    </div>
-  `;
-}
-renderDocuments();
 </script>
 </body>
-  </html>
+</html>
